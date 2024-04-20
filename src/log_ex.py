@@ -1,51 +1,67 @@
 
 import logging
 import datetime as dt
-import traceback
+import pdb
 
 
-def log(content: str = '', 
-        level: str = 'INFO', 
-        log_output: str = 'screen', 
+def log(message: str = '', 
+        type: str = 'INFO', 
+        verbose: bool = True, 
         logfile_by_day: bool = False) -> None:
-    """
-    Log the content with the specified level.
+    """_description_
+    Simple logging function to log messages to the screen or to a file.
+
+    Parameters
+    ----------
+    message : str, optional
+        logging message, by default ''
+    type : str, optional
+        there are three types: ERROR, WARNING, INFO, by default 'INFO'
+    verbose : str, optional
+        show the messages in the screen, by default True
+    logfile_by_day : bool, optional
+        name of logfile is built by date, log-xxxxxxxx, by default False
+
+    Returns
+    -------
+    _type_
+        _description_
     """
     
-    if log_output == 'screen':
+    if verbose:
         logging.basicConfig(level=logging.DEBUG, 
                             format='[%(asctime)s] %(levelname)s - %(message)s')
 
-        if level == 'INFO':
-            logging.info(content)
+        if type == 'INFO':
+            logging.info(message)
             
-        elif level == 'WARNING':
-            logging.warning(content)
+        elif type == 'WARNING':
+            logging.warning(message)
             
-        elif level == 'ERROR':
-            logging.error(content)
+        elif type == 'ERROR':
+            logging.error(message)
 
         
-    if log_output == 'file':
-        if logfile_by_day:
-            log_file = dt.datetime.now().strftime('%Y-%m-%d') + '.log'
-        else:
-            log_file = 'log.log'
+    if logfile_by_day:
+        log_file = dt.datetime.now().strftime('%Y-%m-%d') + '.log'
+    else:
+        log_file = 'sys.log'
         
-        logging.basicConfig(level=logging.INFO,
-                            format='[%(asctime)s] %(levelname)s - %(message)s',
-                            filename=log_file,
-                            filemode='a')
+    
+    logging.basicConfig(level=logging.DEBUG,
+                        format='[%(asctime)s] %(levelname)s - %(message)s',
+                        filename=log_file,
+                        filemode='a')
 
-        if level == 'INFO':
-            logging.info(content)
-            
-        elif level == 'WARNING':
-            logging.warning(content)
-            
-        elif level == 'ERROR':
-            logging.error(content)
-            
+    if type == 'INFO':
+        logging.info(message)
+        
+    elif type == 'WARNING':
+        logging.warning(message)
+        
+    elif type == 'ERROR':
+        logging.error(message)
+        
     return None
 
         
